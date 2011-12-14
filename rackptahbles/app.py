@@ -47,8 +47,8 @@ def main(global_config, **settings):
 
     #bootstrap data here, removed ptah_simpleauth link population
 
-    # Need to commit links to database manually.
-    #transaction.commit()
+    # Need to commit bootstrap data to database manually.
+    transaction.commit()
 
     # configure ptah manage
     ptah_settings = config.ptah_get_settings(ptah.CFG_ID_PTAH)
