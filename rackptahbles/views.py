@@ -7,16 +7,16 @@ from pyramid.traversal import DefaultRootFactory
 import ptah
 from ptah import form
 
-from ptah_simpleauth import models
+from rackptahbles import models
 
 # logger, check Debug Toolbar logging section or stdout
 log = logging.getLogger(__name__)
 
 
-@ptah.layout(context=models.Link,
-             renderer='ptah_simpleauth:templates/layout.pt', use_global_views=True)
+@ptah.layout(context=models.RackObject,
+             renderer='rackptahbles:templates/layout.pt', use_global_views=True)
 @ptah.layout(context=DefaultRootFactory,
-             renderer='ptah_simpleauth:templates/layout.pt', use_global_views=True)
+             renderer='rackptahbles:templates/layout.pt', use_global_views=True)
 class Layout(ptah.View):
     """ simple layout """
 
@@ -26,7 +26,7 @@ class Layout(ptah.View):
         self.manage_url = ptah.manage.get_manage_url(self.request)
 
         # query for links to populate links box
-        self.links = ptah.Session.query(models.Link)
+        self.objects = ptah.Session.query(models.RackObject)
 
 
 class Telephone(form.Regex):
@@ -43,7 +43,7 @@ class Telephone(form.Regex):
 # This is a "class view", you do not need to use a class for your 
 # view. You can use a Function view as provided below.
 
-@view_config(renderer='ptah_simpleauth:templates/homepage.pt',
+@view_config(renderer='rackptahbles:templates/homepage.pt',
              wrapper=ptah.wrap_layout(), route_name='root')
 class HomepageView(object):
     """ Homepage view """
@@ -123,13 +123,13 @@ def contact_us(context, request):
     return contactform()
 
 
-@view_config(context=models.Link,
+@view_config(context=models.RackObject,
              wrapper=ptah.wrap_layout(),
-             route_name='edit-links')
-def edit_link(context, request):
-    linkform = form.Form(context,request)
-    linkform.fields = models.Link.__type__.fieldset
-    linkform.label = 'Edit link'
+             route_name='edit-objects')
+def edit_rackobject(context, request):
+    rackobform = form.Form(context,request)
+    rackobform.fields = models.RackObject.__type__.fieldset
+    rackobform.label = 'Edit object'
 
     def cancelAction(form):
         return HTTPFound(location='/')
@@ -142,10 +142,10 @@ def edit_link(context, request):
         form.context.href = data['href']
         form.context.color = data['color']
 
-    linkform.buttons.add_action('Update', action=updateAction)
-    linkform.buttons.add_action('Back', action=cancelAction)
-    linkform.content = {'title':context.title,
+    rackobform.buttons.add_action('Update', action=updateAction)
+    rackobform.buttons.add_action('Back', action=cancelAction)
+    rackobform.content = {'title':context.title,
                         'href':context.href,
                         'color':context.color}
 
-    return linkform()
+    return rackobform()

@@ -2,10 +2,10 @@ import ptah
 import sqlalchemy as sqla
 
 
-class Link(ptah.cms.Node):
+class RackObject(ptah.cms.Node):
     """ A basic model. """
     
-    __tablename__ = 'ptah_simpleauth_links'
+    __tablename__ = 'rackptahbles_object'
    
     # Required primary field
     __id__ = sqla.Column('id', sqla.Integer,
@@ -14,17 +14,19 @@ class Link(ptah.cms.Node):
 
     # Your custom fields
     title = sqla.Column(sqla.Unicode)
-    href = sqla.Column(sqla.Unicode)
-    color = sqla.Column(sqla.Unicode, info={'field_type': 'colorpicker'})
+    label = sqla.Column(sqla.Unicode)
+    objtype = sqla.Column(sqla.Integer)
+    asset_no = sqla.Column(sqla.Unicode)
+    has_problems = sqla.Column(sqla.Boolean)
+    comment = sqla.Column(sqla.Unicode)
 
     # Declare it as a Ptah Model
-    __type__ = ptah.cms.Type('link')
-
+    __type__ = ptah.cms.Type('RackObject')
 
 def factory(request):
     id_ = request.matchdict.get('id')
     if id_:
-        return ptah.cms.Session.query(Link) \
+        return ptah.cms.Session.query(RackObject) \
                .filter(Link.__id__ == id_).first()
 
     return HTTPNotFound(location='.')

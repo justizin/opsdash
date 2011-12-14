@@ -1,4 +1,4 @@
-``ptah_simpleauth`` README
+``rackptahbles`` README
 ==========================
 
 This packages provides a basic example of using ptah.  It demonstrates::
@@ -15,7 +15,7 @@ This packages provides a basic example of using ptah.  It demonstrates::
 
 - An authentication provider to protect the Ptah Manage UI
 
-``ptah_simpleauth`` is built solely on-top of Pyramid.  It depends on
+``rackptahbles`` is built solely on-top of Pyramid.  It depends on
 a number of other components, such as the ``pyramid_debugtoolbar`` so
 a developer can see how information rich the Pyramid/Ptah environment
 is out-of-the-box.

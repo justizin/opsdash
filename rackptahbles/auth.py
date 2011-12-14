@@ -24,7 +24,7 @@ class AuthProvider(object):
 
 class User(Base):
 
-    __tablename__ = 'ptah_simpleauth_users'
+    __tablename__ = 'rackptahbles_users'
 
     pid = sqla.Column(sqla.Integer, primary_key=True)
     uri = sqla.Column(sqla.Unicode(45), unique=True, info={'uri': True})

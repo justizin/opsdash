@@ -17,9 +17,9 @@ test_requires = [
     'pyramid',]
 
 
-setup(name='ptah_simpleauth',
+setup(name='rackptahbles',
       version='0.1',
-      description='ptah_simpleauth',
+      description='rackptahbles',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -39,9 +39,9 @@ setup(name='ptah_simpleauth',
       test_suite = 'nose.collector',
       entry_points = """\
         [paste.app_factory]
-        main = ptah_simpleauth.app:main
+        main = rackptahbles.app:main
         [ptah]
-        package = ptah_simpleauth
+        package = rackptahbles
       """,
       paster_plugins=['pyramid'],
       )
