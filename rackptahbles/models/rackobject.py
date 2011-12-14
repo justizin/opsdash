@@ -1,6 +1,6 @@
 import ptah
 import sqlalchemy as sqla
-
+from pyramid.httpexceptions import HTTPNotFound
 
 class RackObject(ptah.cms.Node):
     """ A basic model. """
@@ -27,6 +27,6 @@ def factory(request):
     id_ = request.matchdict.get('id')
     if id_:
         return ptah.cms.Session.query(RackObject) \
-               .filter(Link.__id__ == id_).first()
+               .filter(RackObject.__id__ == id_).first()
 
     return HTTPNotFound(location='.')

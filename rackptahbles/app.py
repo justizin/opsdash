@@ -61,6 +61,7 @@ def main(global_config, **settings):
     config.add_route('contact-us', '/contact-us.html')
     config.add_route('edit-objects', '/objects/{id}/edit',
                      factory=models.rackobject.factory, use_global_views=True)
+    config.add_route('add-object', '/objects/add.html')
     config.add_route('login', '/login.html')
     config.add_route('logout', '/logout.html')
 

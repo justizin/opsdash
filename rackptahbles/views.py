@@ -139,13 +139,54 @@ def edit_rackobject(context, request):
         if errors:
             return
         form.context.title = data['title']
-        form.context.href = data['href']
-        form.context.color = data['color']
+        form.context.label = data['label']
+        form.context.objtype = data['objtype']
 
     rackobform.buttons.add_action('Update', action=updateAction)
     rackobform.buttons.add_action('Back', action=cancelAction)
     rackobform.content = {'title':context.title,
-                        'href':context.href,
-                        'color':context.color}
+                        'label':context.label,
+                        'objtype':context.objtype}
 
     return rackobform()
+
+@view_config(renderer='rackptahbles:templates/edit.pt',
+             route_name='add-object')
+def add_object(context, request):
+    rackobform = form.Form(context,request)
+    rackobform.fields = models.RackObject.__type__.fieldset
+
+    def cancelAction(form):
+        return HTTPFound(location='/')
+
+    def updateAction(form):
+        data, errors = form.extract()
+        if errors:
+            form.message(errors, 'form-error')
+            return
+
+        obj = models.RackObject(title = data['title'],
+                           label = data['label'],
+                           objtype = data['objtype'])
+        ptah.Session.add(obj)
+
+        form.message('RackObject has been created.')
+        return HTTPFound(location='/')
+
+    rackobform.label = u'Add object'
+    rackobform.buttons.add_action('Add', action=updateAction)
+    rackobform.buttons.add_action('Cancel', action=cancelAction)
+
+    result = rackobform.update() # prepare form for rendering
+    if isinstance(result, HTTPFound):
+        return result
+
+    rendered_form = rackobform.render()
+
+    ptah.include(request, 'bootstrap')
+    rendered_includes = ptah.render_includes(request)
+
+    return {'objects': ptah.cms.Session.query(models.RackObject),
+            'rendered_form': rendered_form,
+            'rendered_includes': rendered_includes,
+            'rendered_messages': ptah.render_messages(request)}
