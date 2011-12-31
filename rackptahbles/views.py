@@ -26,7 +26,7 @@ class Layout(ptah.View):
         self.manage_url = ptah.manage.get_manage_url(self.request)
 
         # query for links to populate links box
-        self.objects = ptah.Session.query(models.RackObject)
+        self.objects = ptah.get_session().query(models.RackObject)
 
 
 class Telephone(form.Regex):
@@ -168,7 +168,7 @@ def add_object(context, request):
         obj = models.RackObject(title = data['title'],
                            label = data['label'],
                            objtype = data['objtype'])
-        ptah.Session.add(obj)
+        ptah.get_session().add(obj)
 
         form.message('RackObject has been created.')
         return HTTPFound(location='/')
@@ -186,7 +186,7 @@ def add_object(context, request):
     ptah.include(request, 'bootstrap')
     rendered_includes = ptah.render_includes(request)
 
-    return {'objects': ptah.cms.Session.query(models.RackObject),
+    return {'objects': ptah.get_session().query(models.RackObject),
             'rendered_form': rendered_form,
             'rendered_includes': rendered_includes,
             'rendered_messages': ptah.render_messages(request)}

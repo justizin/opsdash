@@ -1,10 +1,5 @@
 import ptah
-import sqlahelper
 import sqlalchemy as sqla
-
-Base = sqlahelper.get_base()
-Session = sqlahelper.get_session()
-
 
 @ptah.auth_provider('custom-user')
 class AuthProvider(object):
@@ -22,16 +17,16 @@ class AuthProvider(object):
         return User.get_bylogin(login)
 
 
-class User(Base):
+class User(ptah.get_base()):
 
     __tablename__ = 'rackptahbles_users'
 
     pid = sqla.Column(sqla.Integer, primary_key=True)
-    uri = sqla.Column(sqla.Unicode(45), unique=True, info={'uri': True})
-    name = sqla.Column(sqla.Unicode(255))
-    login = sqla.Column(sqla.Unicode(255), unique=True)
-    email = sqla.Column(sqla.Unicode(255), unique=True)
-    password = sqla.Column(sqla.Unicode(255))
+    uri = sqla.Column(sqla.Unicode, unique=True, info={'uri': True})
+    name = sqla.Column(sqla.Unicode)
+    login = sqla.Column(sqla.Unicode, unique=True)
+    email = sqla.Column(sqla.Unicode, unique=True)
+    password = sqla.Column(sqla.Unicode)
     _uri_gen = ptah.UriFactory('custom-user')
 
     def __init__(self, name, login, email, password=u''):
@@ -45,18 +40,18 @@ class User(Base):
 
     @classmethod
     def get_byuri(cls, uri):
-        return Session.query(User).filter(User.uri==uri).first()
+        return ptah.get_session().query(User).filter(User.uri==uri).first()
 
     @classmethod
     def get_bylogin(cls, login):
-        return Session.query(User).filter(User.login==login).first()
+        return ptah.get_session().query(User).filter(User.login==login).first()
 
 
 @ptah.principal_searcher('custom-user')
 def search(term):
     term = '%%%s%%'%term
 
-    q = Session.query(CrowdUser) \
+    q = ptah.get_session().query(CrowdUser) \
         .filter(sqla.sql.or_(CrowdUser.email.contains(term),
                              CrowdUser.name.contains(term)))\
                              .order_by(sqla.sql.asc('name'))
