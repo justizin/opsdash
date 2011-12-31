@@ -1,3 +1,15 @@
 *.pyc
 db.sqlite
 *.egg-info
+.installed.cfg
+sqlalchemy
+ptah
+python
+lib
+include
+bin
+var
+distribute_setup.py
+eggs
+develop-eggs
+distribute-*.gz
