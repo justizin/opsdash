@@ -17,9 +17,9 @@ test_requires = [
     'pyramid',]
 
 
-setup(name='rackptahbles',
+setup(name='opsdash',
       version='0.1',
-      description='rackptahbles',
+      description='opsdash',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -39,9 +39,9 @@ setup(name='rackptahbles',
       test_suite = 'nose.collector',
       entry_points = """\
         [paste.app_factory]
-        main = rackptahbles.app:main
+        main = opsdash.app:main
         [ptah]
-        package = rackptahbles
+        package = opsdash
       """,
       paster_plugins=['pyramid'],
       )
